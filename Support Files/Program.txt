@@ -1,0 +1,47 @@
+Loc       Source Statement               OBJECT CODE
+0x0000      COPY    START   0
+0x0000      FIRST   STL     RETADR
+0x0003              LDB     #LENGTH
+0x0006              BASE	LENGTH
+0x0006      CLOOP   +JSUB   RDREC
+0x000a              &LDA     LENGTH
+0x000d              COMP    #0
+0x0010              $JEQ     ENDFILL
+0x0014              +JSUB   WRREC
+0x0018              J       CLOOP
+0x001b      ENDFILL LDA     EOF
+0x001e              STA     BUFFER
+0x0021              LDA     #3
+0x0024              STA     LENGTH
+0x0027              +JSUB   WRREC
+0x002b              J       @RETADR
+0x002e      EOF     BYTE    C'EOF'
+0x0031      RETADR  RESW    1
+0x0034      LENGTH  RESW    1
+0x0037      BUFFER  RESB    4096
+0x1037      RDREC   CLEAR   X
+0x1039              CLEAR   A
+0x103b              CLEAR   S
+0x103d              +LDT    #4096
+0x1041      RLOOP   TD      INPUT
+0x1044              JEQ     RLOOP
+0x1047              RD      INPUT
+0x104a              COMPR   A,S
+0x104c              JEQ     EXIT
+0x104f              STCH    BUFFER,X
+0x1052              TIXR    T
+0x1054              JLT     RLOOP
+0x1057      EXIT    STX     LENGTH
+0x105a              RSUB
+0x105d      INPUT   BYTE    X'F1'
+0x105e      WRREC   CLEAR   X
+0x1060              LDT     LENGTH
+0x1063      WLOOP   TD      OUTPUT
+0x1066              JEQ     WLOOP
+0x1069              LDCH    BUFFER,X
+0x106c              WD      OUTPUT
+0x106f              TIXR    T
+0x1071              JLT     WLOOP
+0x1074              RSUB
+0x1077      OUTPUT  BYTE    X'05'
+0x1078              END     FIRST

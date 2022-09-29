@@ -1,0 +1,15 @@
+Symbol      Location
+FIRST       0x0
+CLOOP       0x6
+ENDFILL     0x1b
+EOF         0x2e
+RETADR      0x31
+LENGTH      0x34
+BUFFER      0x37
+RDREC       0x1037
+RLOOP       0x1041
+EXIT        0x1057
+INPUT       0x105d
+WRREC       0x105e
+WLOOP       0x1063
+OUTPUT      0x1077
